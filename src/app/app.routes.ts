@@ -1,22 +1,22 @@
-
-  import { Routes } from '@angular/router';
-  import { Home } from './features/home/home/home';
-  import { ListaProdutos } from './features/produtos/lista-produtos/lista-produtos';
-  import { Carrinho } from './features/carrinho/carrinho/carrinho';
-
+ import { Routes } from '@angular/router';
   export const routes: Routes = [
+
+    // Lazy Loading -> só aparece os produtos se eu "clicar" neles 
     {
       path: '',
-      component: Home,
+      loadComponent: () => import('./features/home/home/home').then((m) => m.Home),
     },
-
     {
       path: 'produtos',
-      component: ListaProdutos,
+      loadComponent: () =>
+        import('./features/produtos/lista-produtos/lista-produtos').then((m) => m.ListaProdutos),
     },
-
     {
       path: 'carrinho',
-      component: Carrinho,
+      loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
+    },
+    {
+      path: '**',
+      redirectTo: '',
     },
   ];
