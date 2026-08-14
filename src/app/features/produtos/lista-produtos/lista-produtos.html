@@ -8,17 +8,23 @@
 
   @if (erro()) {
     <p style="color: red">
-      {{ erro() }}  <!-- Puxa a mensagem de erro lá do signal -->
+      {{ erro() }}
+      <!-- Puxa a mensagem de erro lá do signal -->
     </p>
     <button (click)="carregarProdutos()">Tentar novamente</button>
   }
 
-    <!-- Não tem problema c/ o carregando e tb não tem erro -->
+  <!-- Não tem problema c/ o carregando e tb não tem erro -->
   @if (!carregando() && !erro()) {
     <p>Total de produtos: {{ totalProdutos() }}</p>
     <hr />
     @for (item of produtos(); track $index) {
-      <app-produto [nome]="item.nome" [preco]="item.preco" />
+      <app-produto
+        [nome]="item.nome"
+        [preco]="item.preco"
+        (produtoSelecionado)="exibirProduto($event)"
+        (produtoAdicionado)="adicionarAoCarrinho($event)"
+      />
     }
   }
 
