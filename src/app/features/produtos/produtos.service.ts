@@ -16,6 +16,7 @@ export class ProdutosService {
   private http = inject(HttpClient);
 
   private API = 'https://fakestoreapi.com/products';
+  //private API = 'https://fakestoreapi.com/products-erro';
 
   // pega o que eu quero da lista (título e preço)
   buscarProdutos() {

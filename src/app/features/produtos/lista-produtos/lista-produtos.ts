@@ -23,6 +23,8 @@ export class ListaProdutos {
 
   carrinho = signal<{ nome: string; preco: number }[]>([]);
 
+  erro = signal<string | null>(null); //adicionado na aula 19
+
   // COMPUTED SIGNALS
 
   // computed signal - observa outro signal e se atualiza automaticamente
@@ -60,7 +62,8 @@ export class ListaProdutos {
   } // fim do constructor
 
   carregarProdutos() {
-    this.carregando.set(true);
+    this.erro.set(null); // limpa erro anterior
+    this.carregando.set(true); // ativa loading
 
     this.produtosService.buscarProdutos().subscribe({
       next: (dados) => {
@@ -70,6 +73,7 @@ export class ListaProdutos {
       },
       error: (erro) => {
         console.error('Erro ao carregar produtos:', erro);
+        this.erro.set('Erro ao carregar produtos. Verifique sua conexão e tente novamente.');
         this.carregando.set(false);
       },
     });
