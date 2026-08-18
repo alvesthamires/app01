@@ -1,4 +1,25 @@
 <h2>Checkout</h2>
+
+<!-- mensagem de resposta à compra finalizada do usuário -->
+@if (compraFinalizada()) {
+  <p style="color: green">Compra finalizada com sucesso!</p>
+}
+
+<!-- se estuiver vazio aparece a mensagem, se não, percorre todos os itens do  carrinho com um "for" & faz a soma total dos valores dos itens do carrinho-->
+@if (carrinhoService.carrinhoVazio()) {
+  <p style="color: red">Seu carrinho está vazio. Adicione produtos antes de finalizar a compra.</p>
+} @else {
+  <section>
+    <h3>Resumo do pedido</h3>
+
+    @for (item of carrinhoService.itens(); track $index) {
+      <p>{{ item.nome }} - R$ {{ item.preco.toFixed(2) }}</p>
+    }
+
+    <h3>Total: R$ {{ carrinhoService.total().toFixed(2) }}</h3>
+  </section>
+}
+
 <form [formGroup]="formulario">
   <p><input type="text" formControlName="nome" placeholder="Nome" /></p>
 
@@ -33,7 +54,7 @@
 
   <p><input type="text" formControlName="endereco" placeholder="Endereco" /></p>
 
-   @if (formulario.get('endereco')?.touched && formulario.get('endereco')?.invalid) {
+  @if (formulario.get('endereco')?.touched && formulario.get('endereco')?.invalid) {
     @if (formulario.get('endereco')?.errors?.['required']) {
       <small>Endereço é obrigatório</small>
     }
@@ -43,11 +64,10 @@
     }
   }
 
-<!-- disabled: enquanto der erro o botão não será clicável (desabilitado)-->
-  <p> 
+  <!-- disabled: enquanto der erro o botão não será clicável (desabilitado)-->
+  <p>
     <button type="button" (click)="finalizar()" [disabled]="formulario.invalid">
       Finalizar Compra
     </button>
   </p>
-
 </form>
