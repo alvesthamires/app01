@@ -1,8 +1,15 @@
-import { CanActivateFn } from '@angular/router';
-import { usuarioLogado } from './auth';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 
-// "usuarioLogado" diz se o usuário está logado ou não ( auth.ts )
-// quem chamar authguard tem como retorno o "usuarioLogado"
+import { AuthService } from './services/auth.service';
+
 export const authGuard: CanActivateFn = () => {
-  return usuarioLogado();
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.estaLogado()) {
+    return true;
+  }
+
+  return router.createUrlTree(['/login']);
 };
