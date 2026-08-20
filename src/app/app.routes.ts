@@ -23,7 +23,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
   },
 
-   {
+  {
     path: 'checkout',
     canActivate: [authGuard],
     loadComponent: () => import('./features/checkout/checkout/checkout').then((m) => m.Checkout),
@@ -35,11 +35,16 @@ export const routes: Routes = [
     loadComponent: () => import('./features/admin/admin/admin').then((m) => m.Admin),
   },
 
-    {
+  {
+    path: 'acesso-negado',
+    loadComponent: () =>
+      import('./features/acesso-negado/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),
+  },
+
+  {
     path: 'login',
     loadComponent: () => import('./features/login/login/login').then((m) => m.Login),
   },
-
 
   {
     path: '**',
