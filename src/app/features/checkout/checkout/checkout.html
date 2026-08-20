@@ -1,22 +1,20 @@
 <h2>Checkout</h2>
 
-<!-- mensagem de resposta à compra finalizada do usuário -->
 @if (compraFinalizada()) {
   <p style="color: green">Compra finalizada com sucesso!</p>
 }
 
-<!-- se estuiver vazio aparece a mensagem, se não, percorre todos os itens do  carrinho com um "for" & faz a soma total dos valores dos itens do carrinho-->
-@if (carrinhoService.carrinhoVazio()) {
+@if (carrinhoFacade.carrinhoVazio()) {
   <p style="color: red">Seu carrinho está vazio. Adicione produtos antes de finalizar a compra.</p>
 } @else {
   <section>
     <h3>Resumo do pedido</h3>
 
-    @for (item of carrinhoService.itens(); track $index) {
+    @for (item of carrinhoFacade.itens(); track $index) {
       <p>{{ item.nome }} - R$ {{ item.preco.toFixed(2) }}</p>
     }
 
-    <h3>Total: R$ {{ carrinhoService.total().toFixed(2) }}</h3>
+    <h3>Total: R$ {{ carrinhoFacade.total().toFixed(2) }}</h3>
   </section>
 }
 
@@ -25,17 +23,14 @@
 
   @if (formulario.get('nome')?.touched && formulario.get('nome')?.invalid) {
     @if (formulario.get('nome')?.errors?.['required']) {
-      <!-- Se o erro for do required (não escreveram nada nesse campo que é obrigatório) -->
       <small>Nome é obrigatório</small>
     }
 
     @if (formulario.get('nome')?.errors?.['minlength']) {
-      <!-- Se tiver um erro de nome relacionado ao minlength -->
       <small>Nome deve ter no mínimo 3 caracteres</small>
     }
 
     @if (formulario.get('nome')?.errors?.['numeroInvalido']) {
-      <!-- Se tiver um nome escrito com número no meio; erro de numeroInvalido -->
       <small>Nome não pode conter números</small>
     }
   }
@@ -64,7 +59,6 @@
     }
   }
 
-  <!-- disabled: enquanto der erro o botão não será clicável (desabilitado)-->
   <p>
     <button type="button" (click)="finalizar()" [disabled]="formulario.invalid">
       Finalizar Compra
